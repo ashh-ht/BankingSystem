@@ -1,17 +1,32 @@
-public class Account {
-    private String firstName;
-    private String lastName;
-    private int cardNum;
-    private int cardPin;
+import java.util.*;
 
+public class Account {
+    private String cardNum, firstName, lastName, cardPin;
+    //string ang cardnum and cardpin kasi para mas madali sa checking. and also hnd naman gagamitin for calculations kaya mas okay na string
+    
+    public Account(String cardNum, String firstName, String lastName, String cardPin) {
+        this.cardNum = cardNum;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.cardPin = cardPin;
+    }
+    
+    public String getCardNum() {
+        return cardNum;
+    }
+
+    public void setCardNum(String cardNum) {
+        this.cardNum = cardNum;
+    }
+    
     public String getFirstName() {
         return firstName;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-    }
-
+    }               
+    
     public String getLastName() {
         return lastName;
     }
@@ -19,21 +34,13 @@ public class Account {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
-    public int getCardNum() {
-        return cardNum;
-    }
-
-    public void setCardNum(int cardNum) {
-        this.cardNum = cardNum;
-    }
-
-    public int getCardPin() {
+    
+    public String getCardPin() {
         return cardPin;
     }
 
-    public void setCardPin(int cardPin) {
+    public void setCardPin(String cardPin) {
         this.cardPin = cardPin;
     }
-    
+
 }

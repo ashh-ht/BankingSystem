@@ -1,7 +1,8 @@
 import java.util.Scanner;
 
 public class Main{
-    public static void main(String[] args){
+    public static void main(String[] args) {
+        Methods m = new Methods();
         Scanner sc = new Scanner(System.in);
 
         //switch for create or login
@@ -11,10 +12,10 @@ public class Main{
 
         switch(choice){
             case 1:
-                //code here
+                m.createAccount();
                 break;
             case 2:
-                //code here
+                m.login();
                 break;
             default:
                 //input error handling here
