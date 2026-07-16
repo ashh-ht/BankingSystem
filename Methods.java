@@ -3,14 +3,11 @@ import java.util.*;
 public class Methods extends Account {
     Scanner sc = new Scanner(System.in);
 
-        public Methods(String firstname,String lastname,int cardNum,int cardPin,float balance ){
-            setBalance(balance);
-            setCardNum(cardNum);
-            setCardPin(cardPin);
-            setFirstName(firstname);
-            setLastName(lastname);
+        public Methods(String cardNum, String firstName, String lastName, String cardPin, double balance ){
+            super(cardNum, firstName, lastName, cardPin, balance);
 
         }
+
     public void Withdraw(double Amount){
         System.out.println("Enter the amount to be withdrawed: ");
         Amount = sc.nextDouble();
@@ -24,12 +21,12 @@ public class Methods extends Account {
             System.out.println("The Maximum withdrawal is Php20000");
         }
         //
-        else if(Amount > getBlance()){
-            System.out.println("Insufficient credits at the card, current balance: " + getBlance());
+        else if(Amount > getBalance()){
+            System.out.println("Insufficient credits at the card, current balance: " + getBalance());
         }else{
             /* getbalance which is the current subtract the amount the user inputed and turns it into float which the setbalance updates the
             new balance */
-            setBalance(getBlance()-(float)Amount);
+            setBalance(getBalance() - (float)Amount);
             System.out.println("Withdrawal Succesful:" + Amount);
         }
             }
@@ -41,13 +38,33 @@ public class Methods extends Account {
             
         }
    
-    //FEATURES
-    //1. withdraw
-        //-minimum of 100, maximum of 20,000 pesos
+    public void deposit(double Amount)
+    {
+        System.out.println("Enter the amount to be Deposited: ");
+        Amount = sc.nextDouble();
 
-    
-    //2. deposit
-        //-minimum of 100, maximum of 20,000 pesos
+        try{
+        if(Amount < 100){
+            System.out.println("The minimum withdrawal is Php100");
+        }
+        // if the amount is greater than 20k then this will be printed
+        else if(Amount > 20000){ 
+            System.out.println("The Maximum withdrawal is Php20000");
+        }else{
+            /* getbalance which is the current adds the amount the user inputed and turns it into float which the setbalance updates the
+            new balance */
+            setBalance(getBalance() + (float)Amount);
+            System.out.println("Withdrawal Succesful:" + Amount);
+            }
+        }
+        // prevents the user from entering strings
+        catch(InputMismatchException e){
+            System.out.println("Error!! Please Enter valid number");
+            sc.nextLine();
+        }
+            
+    }
+    //FEATURES
     //3. transfer
         //-minimum of 50, maximum of 10,000 pesos
     //4. view balance and account details
@@ -58,13 +75,13 @@ public class Methods extends Account {
     //6. history
 
     private final Map<String, Account> dummyData = Map.of(
-            "1234567899876543", new Account("1234567899876543", "Sylvia Heart", "Sulla", "1234"),
-            "9876543211234567", new Account("9876543211234567", "John Francis", "Hernandez", "5678"),
-            "4567891234567890", new Account("4567891234567890", "Jane Marie", "Dela Cruz", "9012")
+            "1234567899876543", new Account("1234567899876543", "Sylvia Heart", "Sulla", "1234", 0),
+            "9876543211234567", new Account("9876543211234567", "John Francis", "Hernandez", "5678", 0),
+            "4567891234567890", new Account("4567891234567890", "Jane Marie", "Dela Cruz", "9012",0)
     );
         
-    public void addData(String cardNum, String firstName, String lastName, String cardPin) {
-        Account newData = new Account(cardNum, firstName, lastName, cardPin);
+    public void addData(String cardNum, String firstName, String lastName, String cardPin, double balance) {
+        Account newData = new Account(cardNum, firstName, lastName, cardPin, balance);
         dummyData.put(cardNum, newData); 
     }
 
@@ -85,11 +102,11 @@ public class Methods extends Account {
         System.out.println("~~~~~~~~~~Welcome to the Banking System!~~~~~~~~~~");
         //while true for user input validation. uulit kapag mali/wala sa dummy data
         while (true) {
-            System.out.println("Enter your first name: ");
+            System.out.print("Enter your first name: ");
             firstName = sc.nextLine();
-            System.out.println("Enter your last name: ");
+            System.out.print("Enter your last name: ");
             lastName = sc.nextLine();
-            System.out.println("Enter your card number: ");
+            System.out.print("Enter your card number: ");
             cardNum = sc.nextLine();
             boolean found = userChecker(firstName, lastName, cardNum);
             if (!found) {
@@ -100,13 +117,9 @@ public class Methods extends Account {
         }
 
         while (true) {
-            System.out.println("Enter your card pin: ");
+            System.out.print("Enter your card pin: ");
             cardPin = sc.nextLine();
-            boolean correctPin = pinChecker(cardNum, cardPin);
-            if (!correctPin) {
-                System.out.println("Incorrect pin. Please try again.");
-                continue;
-            }
+            pinChecker(cardNum, cardPin);
             break;
         }
     }
@@ -132,7 +145,7 @@ public class Methods extends Account {
             }
         }
         
-        addData(cardNum, firstName, lastName, cardPin);
+        addData(cardNum, firstName, lastName, cardPin, 0);
         
     }
     

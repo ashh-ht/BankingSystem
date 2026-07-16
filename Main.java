@@ -8,6 +8,7 @@ public class Main{
         //switch for create or login
         System.out.println("1. Create Account");
         System.out.println("2. Login");
+        System.out.print("Enter your choice: ");
         int choice = sc.nextInt();
         
         /*switch(choice){
