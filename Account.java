@@ -2,13 +2,15 @@ import java.util.*;
 
 public class Account {
     private String cardNum, firstName, lastName, cardPin;
+    private double balance;
     //string ang cardnum and cardpin kasi para mas madali sa checking. and also hnd naman gagamitin for calculations kaya mas okay na string
     
-    public Account(String cardNum, String firstName, String lastName, String cardPin) {
+    public Account(String cardNum, String firstName, String lastName, String cardPin, double balance) {
         this.cardNum = cardNum;
         this.firstName = firstName;
         this.lastName = lastName;
         this.cardPin = cardPin;
+        this.balance = balance;
     }
     
     public String getCardNum() {

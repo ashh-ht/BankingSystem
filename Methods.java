@@ -17,13 +17,13 @@ public class Methods {
     //6. history
 
     private final Map<String, Account> dummyData = Map.of(
-            "1234567899876543", new Account("1234567899876543", "Sylvia Heart", "Sulla", "1234"),
-            "9876543211234567", new Account("9876543211234567", "John Francis", "Hernandez", "5678"),
-            "4567891234567890", new Account("4567891234567890", "Jane Marie", "Dela Cruz", "9012")
+            "1234567899876543", new Account("1234567899876543", "Sylvia Heart", "Sulla", "1234", 0),
+            "9876543211234567", new Account("9876543211234567", "John Francis", "Hernandez", "5678", 0),
+            "4567891234567890", new Account("4567891234567890", "Jane Marie", "Dela Cruz", "9012",0)
     );
         
-    public void addData(String cardNum, String firstName, String lastName, String cardPin) {
-        Account newData = new Account(cardNum, firstName, lastName, cardPin);
+    public void addData(String cardNum, String firstName, String lastName, String cardPin, double balance) {
+        Account newData = new Account(cardNum, firstName, lastName, cardPin, balance);
         dummyData.put(cardNum, newData); 
     }
 
@@ -44,11 +44,11 @@ public class Methods {
         System.out.println("~~~~~~~~~~Welcome to the Banking System!~~~~~~~~~~");
         //while true for user input validation. uulit kapag mali/wala sa dummy data
         while (true) {
-            System.out.println("Enter your first name: ");
+            System.out.print("Enter your first name: ");
             firstName = sc.nextLine();
-            System.out.println("Enter your last name: ");
+            System.out.print("Enter your last name: ");
             lastName = sc.nextLine();
-            System.out.println("Enter your card number: ");
+            System.out.print("Enter your card number: ");
             cardNum = sc.nextLine();
             boolean found = userChecker(firstName, lastName, cardNum);
             if (!found) {
@@ -59,13 +59,9 @@ public class Methods {
         }
 
         while (true) {
-            System.out.println("Enter your card pin: ");
+            System.out.print("Enter your card pin: ");
             cardPin = sc.nextLine();
-            boolean correctPin = pinChecker(cardNum, cardPin);
-            if (!correctPin) {
-                System.out.println("Incorrect pin. Please try again.");
-                continue;
-            }
+            pinChecker(cardNum, cardPin);
             break;
         }
     }
@@ -91,7 +87,7 @@ public class Methods {
             }
         }
         
-        addData(cardNum, firstName, lastName, cardPin);
+        addData(cardNum, firstName, lastName, cardPin, 0);
         
     }
     
