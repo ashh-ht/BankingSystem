@@ -1,10 +1,51 @@
 import java.util.*;
 
-public class Methods {
+public class Methods extends Account {
     Scanner sc = new Scanner(System.in);
+
+        public Methods(String firstname,String lastname,int cardNum,int cardPin,float balance ){
+            setBalance(balance);
+            setCardNum(cardNum);
+            setCardPin(cardPin);
+            setFirstName(firstname);
+            setLastName(lastname);
+
+        }
+    public void Withdraw(double Amount){
+        System.out.println("Enter the amount to be withdrawed: ");
+        Amount = sc.nextDouble();
+        
+        try{
+        if(Amount < 100){
+            System.out.println("The minimum withdrawal is Php100");
+        }
+        // if the amount is greater than 20k then this will be printed
+        else if(Amount > 20000){ 
+            System.out.println("The Maximum withdrawal is Php20000");
+        }
+        //
+        else if(Amount > getBlance()){
+            System.out.println("Insufficient credits at the card, current balance: " + getBlance());
+        }else{
+            /* getbalance which is the current subtract the amount the user inputed and turns it into float which the setbalance updates the
+            new balance */
+            setBalance(getBlance()-(float)Amount);
+            System.out.println("Withdrawal Succesful:" + Amount);
+        }
+            }
+            // prevents the user from entering strings
+        catch(InputMismatchException e){
+            System.out.println("Error!! Please Enter valid number");
+            sc.nextLine();
+            }
+            
+        }
+   
     //FEATURES
     //1. withdraw
         //-minimum of 100, maximum of 20,000 pesos
+
+    
     //2. deposit
         //-minimum of 100, maximum of 20,000 pesos
     //3. transfer

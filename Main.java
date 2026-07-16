@@ -9,8 +9,8 @@ public class Main{
         System.out.println("1. Create Account");
         System.out.println("2. Login");
         int choice = sc.nextInt();
-
-        switch(choice){
+        
+        /*switch(choice){
             case 1:
                 m.createAccount();
                 break;
@@ -20,7 +20,7 @@ public class Main{
             default:
                 //input error handling here
                 System.out.println("Invalid choice. Please try again.");
-        }
+        } */
 
     }
 }
