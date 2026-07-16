@@ -26,16 +26,6 @@ public class Methods {
     public void addData(String cardNum, String firstName, String lastName, String cardPin, double balance) {
         Account newData = new Account(cardNum, firstName, lastName, cardPin, balance);
         dummyData.put(cardNum, newData);
-        setAccount(cardNum, firstName, lastName, cardPin, balance);
-        
-    }
-
-    public void setAccount(String cardNum, String firstName, String lastName, String cardPin, double balance) {
-        account.setFirstName(firstName);
-        account.setLastName(lastName);
-        account.setCardNum(cardNum);
-        account.setCardPin(cardPin);
-        account.setBalance(balance);
     }
 
     public static String generateCardNum() {
@@ -52,7 +42,7 @@ public class Methods {
     public void login() {
         String firstName, lastName, cardNum, cardPin;
 
-        System.out.println("~~~~~~~~~~Welcome to the Banking System!~~~~~~~~~~");
+        System.out.println("~~~~~~~~~~Welcome to the TFPH Banking System!~~~~~~~~~~");
         //while true for user input validation. uulit kapag mali/wala sa dummy data
         while (true) {
             System.out.print("Enter your first name: ");
@@ -79,7 +69,6 @@ public class Methods {
             }
             break;
         }
-        setAccount(cardNum, firstName, lastName, cardPin, dummyData.get(cardNum).getBalance());
     }
 
     //create account
@@ -130,6 +119,42 @@ public class Methods {
         return true;
     }
 
+    public void menu() {
+        System.out.println("~~~~~~~~~~Welcome to the TFPH Banking System Menu!~~~~~~~~~~");
+        System.out.println("1. Withdraw");
+        System.out.println("2. Deposit");
+        System.out.println("3. Send Money");
+        System.out.println("4. View Balance and Account Details");
+        System.out.println("5. Edit Card Details");
+        System.out.println("6. View Transaction History");
+        System.out.print("Enter your choice: ");
+        int choice = sc.nextInt();
+
+        switch (choice) {
+            case 1:
+                //withdraw
+                break;
+            case 2:
+                //deposit
+                break;
+            case 3:
+                transfer();
+                break;
+            case 4:
+                //view balance and account details
+                break;
+            case 5:
+                //edit card details
+                break;
+            case 6:
+                //view transaction history
+                break;
+            default:
+                System.out.println("Invalid choice. Please try again.");
+        }
+    }
+
+
     //money transfer
     public void transfer() {
         String cardNum = account.getCardNum();
@@ -146,28 +171,29 @@ public class Methods {
                 } catch (NumberFormatException e) {
                     System.out.println("Invalid amount. Please enter a valid number.");
                 }
-                if(amount < 50 || amount > 10000) {
+                if (amount < 50 || amount > 10000) {
                     System.out.println("Invalid amount. Please enter an amount between 50 and 10,000 pesos.");
                 } else {
                     break;
                 }
             }
-            
+
             System.out.print("Message (Optional): ");
             String message = sc.nextLine();
 
             Optional<Account> recipient = this.dummyData.values().stream()
                     .filter(u -> u.getCardNum().equals(recipientCardNum))
                     .findFirst();
-            
+
             if (!recipient.isPresent()) {
                 System.out.println("Recipient not found. Please check the card number and try again.");
                 continue;
             } else {
                 System.out.println(
-                        "Transferring to " + recipient.get().getFirstName() + " " + recipient.get().getLastName() + "?[yes or no]");
+                        "Transferring to " + recipient.get().getFirstName() + " " + recipient.get().getLastName()
+                                + "?[yes or no]");
                 String dec = sc.nextLine();
-                if(dec.equalsIgnoreCase("yes")) {
+                if (dec.equalsIgnoreCase("yes")) {
                     System.out.println("Transfer successful!");
                     System.out.println("Amount: " + amount);
                     System.out.println("Message: " + message);
@@ -179,8 +205,47 @@ public class Methods {
                 }
             }
         }
-        
+    }
 
+    public void editCardDetails() {
+        System.out.println("~~~~~~~~~~Edit Card Details~~~~~~~~~~");
+        System.out.println("1. Name");
+        System.out.println("2. Card Pin");
+        System.out.print("Enter details you want to edit: ");
+        int choice = sc.nextInt();
 
+        switch (choice) {
+            case 1:
+                System.out.print("Enter your new first name: ");
+                String newFirstName = sc.nextLine();
+                System.out.print("Enter your new last name: ");
+                String newLastName = sc.nextLine();
+                account.setFirstName(newFirstName);
+                account.setLastName(newLastName);
+                printAllAccounts();
+                System.out.println("Name updated successfully!");
+                break;
+            case 2:
+                System.out.print("Enter your new card pin: ");
+                String newCardPin = sc.nextLine();
+                account.setCardPin(newCardPin);
+                printAllAccounts();
+                System.out.println("Card pin updated successfully!");
+                break;
+            default:
+                System.out.println("Invalid choice. Please try again.");
+        }
+    }
+
+    public void printAllAccounts() {
+        System.out.println("=== ALL REGISTERED ACCOUNTS ===");
+
+        // key = cardNumber, value = account
+        dummyData.forEach((cardNumber, account) -> {
+            System.out.println("\n\nCard Number: " + cardNumber);
+            System.out.println("Owner:       " + account.getFirstName() + " " + account.getLastName());
+            System.out.println("Balance:     ₱" + account.getBalance());
+            System.out.println("---------------------------------\n\n");
+        });
     }
 }
