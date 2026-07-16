@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class Methods {
+    Account account;
     Scanner sc = new Scanner(System.in);
     //FEATURES
     //1. withdraw
@@ -24,7 +25,17 @@ public class Methods {
         
     public void addData(String cardNum, String firstName, String lastName, String cardPin, double balance) {
         Account newData = new Account(cardNum, firstName, lastName, cardPin, balance);
-        dummyData.put(cardNum, newData); 
+        dummyData.put(cardNum, newData);
+        setAccount(cardNum, firstName, lastName, cardPin, balance);
+        
+    }
+
+    public void setAccount(String cardNum, String firstName, String lastName, String cardPin, double balance) {
+        account.setFirstName(firstName);
+        account.setLastName(lastName);
+        account.setCardNum(cardNum);
+        account.setCardPin(cardPin);
+        account.setBalance(balance);
     }
 
     public static String generateCardNum() {
@@ -50,7 +61,7 @@ public class Methods {
             lastName = sc.nextLine();
             System.out.print("Enter your card number: ");
             cardNum = sc.nextLine();
-            boolean found = userChecker(firstName, lastName, cardNum);
+            boolean found = userChecker(cardNum);
             if (!found) {
                 System.out.println("User not found. Please check your details and try again.");
                 continue;
@@ -61,29 +72,34 @@ public class Methods {
         while (true) {
             System.out.print("Enter your card pin: ");
             cardPin = sc.nextLine();
-            pinChecker(cardNum, cardPin);
+            boolean correctPin = pinChecker(cardNum, cardPin);
+            if (!correctPin) {
+                System.out.println("Incorrect pin. Please try again.");
+                continue;
+            }
             break;
         }
+        setAccount(cardNum, firstName, lastName, cardPin, dummyData.get(cardNum).getBalance());
     }
 
     //create account
     public void createAccount() {
         System.out.println("~~~~~~~~~~Create Account~~~~~~~~~~");
-        System.out.println("Enter your first name: ");
+        System.out.print("Enter your first name: ");
         String firstName = sc.nextLine();
-        System.out.println("Enter your last name: ");
+        System.out.print("Enter your last name: ");
         String lastName = sc.nextLine();
         String cardNum = generateCardNum();
         System.out.println("Your card number is: " + cardNum);
         String cardPin = "";
         while (true) {
-            System.out.println("Create a 4-digit card pin: ");
+            System.out.print("Create a 4-digit card pin: ");
             cardPin = sc.nextLine();
             if (cardPin.matches("\\d{4}")) {
-                System.out.println("Account created successfully!");
+                System.out.print("Account created successfully!");
                 break;
             } else {
-                System.out.println("Invalid pin. Please enter a 4-digit pin.");
+                System.out.print("Invalid pin. Please enter a 4-digit pin.");
             }
         }
         
@@ -92,14 +108,12 @@ public class Methods {
     }
     
     //user checker
-    public boolean userChecker(String firstName, String lastName, String cardNum) {
+    public boolean userChecker(String cardNum) {
         Optional<Account> user = this.dummyData.values().stream()
-                .filter(u -> u.getFirstName().equals(firstName) && u.getLastName().equals(lastName)
-                        && u.getCardNum().equals(cardNum))
+                .filter(u -> u.getCardNum().equals(cardNum))
                 .findFirst();
 
         if (!user.isPresent()) {
-            System.out.println("User not found. Please check your details and try again.");
             return false;
         }
         return true;
@@ -111,7 +125,6 @@ public class Methods {
                 .findFirst();
 
         if (!user.isPresent()) {
-            System.out.println("Incorrect pin. Please try again.");
             return false;
         }
         return true;
@@ -119,13 +132,14 @@ public class Methods {
 
     //money transfer
     public void transfer() {
+        String cardNum = account.getCardNum();
         System.out.println("~~~~~~~~~~Transfer Money~~~~~~~~~~");
         while (true) {
-            System.out.println("Enter the recipient's card number: ");
+            System.out.print("Enter the recipient's card number: ");
             String recipientCardNum = sc.nextLine();
             double amount = 0;
             while (true) {
-                System.out.println("Enter the amount to transfer: ");
+                System.out.print("Enter the amount to transfer: ");
                 try {
                     amount = Double.parseDouble(sc.nextLine());
                     break;
@@ -139,7 +153,7 @@ public class Methods {
                 }
             }
             
-            System.out.println("Message (Optional): ");
+            System.out.print("Message (Optional): ");
             String message = sc.nextLine();
 
             Optional<Account> recipient = this.dummyData.values().stream()
@@ -157,7 +171,8 @@ public class Methods {
                     System.out.println("Transfer successful!");
                     System.out.println("Amount: " + amount);
                     System.out.println("Message: " + message);
-                    
+                    recipient.get().setBalance(recipient.get().getBalance() + amount);
+                    this.dummyData.get(cardNum).setBalance(account.getBalance() - amount);
                 } else {
                     System.out.println("Transfer cancelled.");
                     continue;

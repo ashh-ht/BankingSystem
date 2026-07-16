@@ -45,4 +45,12 @@ public class Account {
         this.cardPin = cardPin;
     }
 
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
 }
