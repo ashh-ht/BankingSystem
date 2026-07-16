@@ -14,9 +14,11 @@ public class Main{
         /*switch(choice){
             case 1:
                 m.createAccount();
+                m.menu();
                 break;
             case 2:
                 m.login();
+                m.menu();
                 break;
             default:
                 //input error handling here

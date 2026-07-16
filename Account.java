@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class Account {
     private String cardNum, firstName, lastName, cardPin;
     private double balance;
@@ -45,10 +43,12 @@ public class Account {
         this.cardPin = cardPin;
     }
 
-    public void setBalance(double balance){
-        this.balance = balance;
-    }
-    public double getBalance(){
+    public double getBalance() {
         return balance;
     }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
 }
