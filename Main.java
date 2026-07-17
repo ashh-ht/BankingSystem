@@ -11,7 +11,7 @@ public class Main{
         System.out.print("Enter your choice: ");
         int choice = sc.nextInt();
         
-        /*switch(choice){
+        switch(choice){
             case 1:
                 m.createAccount();
                 m.menu();
@@ -23,7 +23,7 @@ public class Main{
             default:
                 //input error handling here
                 System.out.println("Invalid choice. Please try again.");
-        } */
+        } 
 
     }
 }

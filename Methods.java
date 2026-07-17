@@ -1,13 +1,11 @@
+import java.lang.reflect.Method;
 import java.util.*;
 
 public class Methods {
     Account account;
     Scanner sc = new Scanner(System.in);
 
-        public Methods(String cardNum, String firstName, String lastName, String cardPin, double balance ){
-            super(cardNum, firstName, lastName, cardPin, balance);
-
-        }
+  
 
     public void Withdraw(double Amount){
         System.out.println("Enter the amount to be withdrawed: ");
@@ -22,12 +20,12 @@ public class Methods {
             System.out.println("The Maximum withdrawal is Php20000");
         }
         //
-        else if(Amount > getBalance()){
-            System.out.println("Insufficient credits at the card, current balance: " + getBalance());
+        else if(Amount > account.getBalance()){
+            System.out.println("Insufficient credits at the card, current balance: " + account.getBalance());
         }else{
             /* getbalance which is the current subtract the amount the user inputed and turns it into float which the setbalance updates the
             new balance */
-            setBalance(getBalance() - (float)Amount);
+            account.setBalance(account.getBalance() - (float)Amount);
             System.out.println("Withdrawal Succesful:" + Amount);
         }
             }
@@ -50,11 +48,11 @@ public class Methods {
         }
         // if the amount is greater than 20k then this will be printed
         else if(Amount > 20000){ 
-            System.out.println("The Maximum withdrawal is Php20000");
+            System.out.println("The Maximum withdrawal is Php20,000");
         }else{
             /* getbalance which is the current adds the amount the user inputed and turns it into float which the setbalance updates the
             new balance */
-            setBalance(getBalance() + (float)Amount);
+            account.setBalance(account.getBalance() + (float)Amount);
             System.out.println("Withdrawal Succesful:" + Amount);
             }
         }
@@ -76,7 +74,7 @@ public class Methods {
     //6. history
 
     private final Map<String, Account> dummyData = Map.of(
-            "1234567899876543", new Account("1234567899876543", "Sylvia Heart", "Sulla", "1234", 0),
+            "1234567899876543", new Account("1234567899876543", "Sylvia Heart", "Sulla", "1234", 5000),
             "9876543211234567", new Account("9876543211234567", "John Francis", "Hernandez", "5678", 0),
             "4567891234567890", new Account("4567891234567890", "Jane Marie", "Dela Cruz", "9012",0)
     );
@@ -188,10 +186,13 @@ public class Methods {
         System.out.print("Enter your choice: ");
         int choice = sc.nextInt();
 
+        
         switch (choice) {
             case 1:
-                //withdraw
+                Methods methods = new Methods();
+                methods.Withdraw(0);
                 break;
+
             case 2:
                 //deposit
                 break;
