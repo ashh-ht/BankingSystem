@@ -4,6 +4,84 @@ public class Methods {
     Scanner sc = new Scanner(System.in);
     private Account account;
 
+    // WITHDRAWAL FUNCTION - Hendrick
+        public void withdraw(){
+        double Amount = 0;
+        // i created this to create a loop to avoid error on withdrawal and Deposit
+        boolean Validity = false;
+        System.out.println("~~~~~~~~~~Withdrawal~~~~~~~~~~");
+        
+        
+        //Error handling  this loop makes that whenever a user tries to use anything but numbers will be put in a loop and catch error to prevent crash
+        while(!Validity){
+            System.out.println("Please Enter the amount: ");
+            try{
+            Amount = sc.nextDouble();
+            Validity = true;
+        }catch(InputMismatchException ex){
+            System.out.println("Invalid number input, try again.");
+            sc.nextLine();
+        }
+    }
+        
+        // If else Deposit thingy basically I just change the operation on the setbalance
+        if( Amount < 100){
+            System.out.println("The minimum required to withdraw is Php 100:  " + account.getBalance());
+        } 
+        else if( Amount > 20000){
+            System.out.println("The maximum required to withdraw is Php 20,000:  " + account.getBalance());
+        }
+        else if ( Amount > account.getBalance()){
+            System.out.println("Insufficient credits Your current Balance:  " + account.getBalance());
+        }
+        else{
+            // Subtract the balance of the user to the amount that was inputted then updates it using the setBalance
+            account.setBalance(account.getBalance() - (double)Amount);
+            System.out.printf("~~~ Withdraw Successful ~~~%nAmount Deposited: %.2f%nNew Balance: %.2f%n", Amount, account.getBalance());
+                }
+            }
+            
+        
+        
+    // DEPOSIT FUNCTION - Hendrick
+            public void deposit(){
+        // i created this to create a loop to avoid error on withdrawal and Deposit
+        double Amount = 0;
+        boolean Validity = false;
+        System.out.println("~~~Depositing~~~");
+        
+        
+        //Error handling  this loop makes that whenever a user tries to use anything but numbers will be put in a loop and catch error to prevent crash
+        while(!Validity){
+            System.out.println("Please Enter the amount: ");
+            try{
+            Amount = sc.nextDouble();
+            Validity = true;
+        }catch(InputMismatchException ex){
+            System.out.println("Invalid number input, try again.");
+            sc.nextLine();
+        }
+    }
+        
+        // If else Deposit thingy
+        if( Amount < 100){
+            System.out.println("The minimum required to deposit is Php 100:  " + account.getBalance());
+        } 
+        else if( Amount > 20000){
+            System.out.println("The maximum required deposit is Php 20,000:  " + account.getBalance());
+        }
+        else if ( Amount > account.getBalance()){
+            System.out.println("Insufficient credits Your current Balance:  " + account.getBalance());
+        }
+        else{
+            // add the balance of the user to the amount that was inputted then updates it using the setBalance
+            account.setBalance(account.getBalance() + (float)Amount);
+            //formatted into two decimal place
+            System.out.printf("~~~ Deposit Successful ~~~%nAmount Deposited: %.2f%nNew Balance: %.2f%n", Amount, account.getBalance());
+            }
+        ///////////////////////////////////
+            }
+        
     // 3. transfer
     // -minimum of 50, maximum of 10,000 pesos
     // 4. view balance and account details
