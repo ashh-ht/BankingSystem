@@ -2,10 +2,12 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 public class Methods {
-    Account account;
+    private Account account;
     Scanner sc = new Scanner(System.in);
 
-  
+    public Methods(Account account){
+        this.account = account;
+    }
 
     public void Withdraw(double Amount){
         System.out.println("Enter the amount to be withdrawed: ");
@@ -73,7 +75,7 @@ public class Methods {
     //5. edit card details
     //6. history
 
-    private final Map<String, Account> dummyData = Map.of(
+    private final Map<String, Account> dummyData = Map.of(//map.of
             "1234567899876543", new Account("1234567899876543", "Sylvia Heart", "Sulla", "1234", 5000),
             "9876543211234567", new Account("9876543211234567", "John Francis", "Hernandez", "5678", 0),
             "4567891234567890", new Account("4567891234567890", "Jane Marie", "Dela Cruz", "9012",0)
@@ -96,7 +98,9 @@ public class Methods {
 
     //login
     public void login() {
-        String firstName, lastName, cardNum, cardPin;
+        String firstName,lastName,cardNum,cardPin;
+
+    
 
         System.out.println("~~~~~~~~~~Welcome to the TFPH Banking System!~~~~~~~~~~");
         //while true for user input validation. uulit kapag mali/wala sa dummy data
@@ -113,7 +117,10 @@ public class Methods {
                 continue;
             }
             break;
+            
         }
+
+
 
         while (true) {
             System.out.print("Enter your card pin: ");
@@ -123,6 +130,7 @@ public class Methods {
                 System.out.println("Incorrect pin. Please try again.");
                 continue;
             }
+            this.account = dummyData.get(cardNum);
             break;
         }
     }

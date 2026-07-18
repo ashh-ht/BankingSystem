@@ -2,7 +2,9 @@ import java.util.Scanner;
 
 public class Main{
     public static void main(String[] args) {
-        Methods m = new Methods();
+        Account a = new Account();
+        a.setBalance(5000);
+        Methods m = new Methods(a);
         Scanner sc = new Scanner(System.in);
 
         //switch for create or login
@@ -24,6 +26,6 @@ public class Main{
                 //input error handling here
                 System.out.println("Invalid choice. Please try again.");
         } 
-
+        sc.close();
     }
 }
