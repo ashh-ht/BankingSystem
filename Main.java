@@ -10,6 +10,7 @@ public class Main{
         System.out.println("2. Login");
         System.out.print("Enter your choice: ");
         int choice = sc.nextInt();
+        sc.nextLine(); 
 
         switch(choice){
             case 1:
@@ -23,6 +24,7 @@ public class Main{
             default:
                 //input error handling here
                 System.out.println("Invalid choice. Please try again.");
+                break;
         }
 
     }
