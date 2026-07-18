@@ -5,7 +5,8 @@ public class Methods {
     private Account account;
 
     // WITHDRAWAL FUNCTION - Hendrick
-        public void Withdraw(double Amount ){
+        public void withdraw(){
+        double Amount = account.getBalance();
         // i created this to create a loop to avoid error on withdrawal and Deposit
         boolean Validity = false;
         System.out.println("~~~~~~~~~~Withdrawal~~~~~~~~~~");
@@ -44,8 +45,9 @@ public class Methods {
         
         
     // DEPOSIT FUNCTION - Hendrick
-            public void Deposit(double Amount ){
+            public void deposit(){
         // i created this to create a loop to avoid error on withdrawal and Deposit
+        double Amount = account.getBalance();
         boolean Validity = false;
         System.out.println("~~~Depositing~~~");
         
@@ -78,7 +80,7 @@ public class Methods {
             //formatted into two decimal place
             System.out.printf("~~~ Deposit Successful ~~~%nAmount Deposited: %.2f%nNew Balance: %.2f%n", Amount, account.getBalance());
             }
-        
+        ///////////////////////////////////
             }
         
     // 3. transfer
@@ -88,7 +90,8 @@ public class Methods {
     // -card number
     // -balance
     // 5. edit card details
-    // 6. history
+    // 6. historygit add Main.java Methods.java
+
 
 
 
@@ -233,10 +236,10 @@ public class Methods {
 
             switch (choice) {
                 case 1:
-                    this.Withdraw(0);
+                    withdraw();
                     break;
                 case 2:
-                    this.Deposit(0);
+                    deposit();
                     break;
                 case 3:
                     transfer();
