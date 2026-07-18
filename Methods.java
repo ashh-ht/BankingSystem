@@ -185,7 +185,6 @@ public class Methods {
 
     // money transfer
     public void transfer() {
-        String cardNum = account.getCardNum();
         double balance = account.getBalance();
         System.out.println(Account.Color.BOLD + Account.Color.PURPLE + "\n\n~~~~~~~~~~Send Money~~~~~~~~~~" + Account.Color.RESET);
         while (true) {
