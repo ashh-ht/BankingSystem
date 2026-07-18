@@ -6,7 +6,7 @@ public class Methods {
 
     // WITHDRAWAL FUNCTION - Hendrick
         public void withdraw(){
-        double Amount = account.getBalance();
+        double Amount = 0;
         // i created this to create a loop to avoid error on withdrawal and Deposit
         boolean Validity = false;
         System.out.println("~~~~~~~~~~Withdrawal~~~~~~~~~~");
@@ -38,8 +38,7 @@ public class Methods {
             // Subtract the balance of the user to the amount that was inputted then updates it using the setBalance
             account.setBalance(account.getBalance() - (double)Amount);
             System.out.printf("~~~ Withdraw Successful ~~~%nAmount Deposited: %.2f%nNew Balance: %.2f%n", Amount, account.getBalance());
-            }
-        
+                }
             }
             
         
@@ -47,7 +46,7 @@ public class Methods {
     // DEPOSIT FUNCTION - Hendrick
             public void deposit(){
         // i created this to create a loop to avoid error on withdrawal and Deposit
-        double Amount = account.getBalance();
+        double Amount = 0;
         boolean Validity = false;
         System.out.println("~~~Depositing~~~");
         
