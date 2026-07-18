@@ -1,89 +1,53 @@
-import java.lang.reflect.Method;
 import java.util.*;
 
 public class Methods {
-    private Account account;
     Scanner sc = new Scanner(System.in);
+    private Account account;
 
-    public Methods(Account account){
-        this.account = account;
-    }
-
-    public void Withdraw(double Amount){
-        System.out.println("Enter the amount to be withdrawed: ");
+    public void Withdraw(double Amount ){
+        System.out.println("Please Enter the amount");
         Amount = sc.nextDouble();
-        
-        try{
-        if(Amount < 100){
-            System.out.println("The minimum withdrawal is Php100");
+
+        if( Amount < 100){
+            System.out.println("The Minimum required withdrawal is Php 100:  " + account.getBalance());
+        } 
+        else if( Amount > 20000){
+            System.out.println("The Maximum required withdrawal is Php 20,000:  " + account.getBalance());
         }
-        // if the amount is greater than 20k then this will be printed
-        else if(Amount > 20000){ 
-            System.out.println("The Maximum withdrawal is Php20000");
+        else if ( Amount > account.getBalance()){
+            System.out.println("Insufficient credits Your current Balance:  " + account.getBalance());
         }
-        //
-        else if(Amount > account.getBalance()){
-            System.out.println("Insufficient credits at the card, current balance: " + account.getBalance());
-        }else{
-            /* getbalance which is the current subtract the amount the user inputed and turns it into float which the setbalance updates the
-            new balance */
+        else{
             account.setBalance(account.getBalance() - (float)Amount);
-            System.out.println("Withdrawal Succesful:" + Amount);
+            System.out.println("Withdrawal Succesful. Amount withdrawn:" + Amount + "New balance: " + account.getBalance());
         }
-            }
-            // prevents the user from entering strings
-        catch(InputMismatchException e){
-            System.out.println("Error!! Please Enter valid number");
-            sc.nextLine();
-            }
-            
-        }
-   
-    public void deposit(double Amount)
-    {
-        System.out.println("Enter the amount to be Deposited: ");
-        Amount = sc.nextDouble();
-
-        try{
-        if(Amount < 100){
-            System.out.println("The minimum withdrawal is Php100");
-        }
-        // if the amount is greater than 20k then this will be printed
-        else if(Amount > 20000){ 
-            System.out.println("The Maximum withdrawal is Php20,000");
-        }else{
-            /* getbalance which is the current adds the amount the user inputed and turns it into float which the setbalance updates the
-            new balance */
-            account.setBalance(account.getBalance() + (float)Amount);
-            System.out.println("Withdrawal Succesful:" + Amount);
-            }
-        }
-        // prevents the user from entering strings
-        catch(InputMismatchException e){
-            System.out.println("Error!! Please Enter valid number");
-            sc.nextLine();
-        }
-            
     }
-    //FEATURES
-    //3. transfer
-        //-minimum of 50, maximum of 10,000 pesos
-    //4. view balance and account details
-        //-acc name
-        //-card number
-        //-balance
-    //5. edit card details
-    //6. history
 
-    private final Map<String, Account> dummyData = Map.of(//map.of
-            "1234567899876543", new Account("1234567899876543", "Sylvia Heart", "Sulla", "1234", 5000),
+
+    // FEATURES
+    // 1. withdraw
+    // -minimum of 100, maximum of 20,000 pesos
+    // 2. deposit
+    // -minimum of 100, maximum of 20,000 pesos
+    // 3. transfer
+    // -minimum of 50, maximum of 10,000 pesos
+    // 4. view balance and account details
+    // -acc name
+    // -card number
+    // -balance
+    // 5. edit card details
+    // 6. history
+
+    private final Map<String, Account> dummyData = new HashMap<>(Map.of(
+            "1234567899876543", new Account("1234567899876543", "Sylvia Heart", "Sulla", "1234", 90000),
             "9876543211234567", new Account("9876543211234567", "John Francis", "Hernandez", "5678", 0),
-            "4567891234567890", new Account("4567891234567890", "Jane Marie", "Dela Cruz", "9012",0)
-    );
-        
+            "4567891234567890", new Account("4567891234567890", "Jane Marie", "Dela Cruz", "9012", 0))
+        );
+
     public void addData(String cardNum, String firstName, String lastName, String cardPin, double balance) {
         Account newData = new Account(cardNum, firstName, lastName, cardPin, balance);
         dummyData.put(cardNum, newData);
+        this.account = newData;
     }
 
     public static String generateCardNum() {
@@ -92,35 +56,38 @@ public class Methods {
         for (int i = 0; i < 16; i++) {
             int digit = random.nextInt(10);
             cardNum.append(digit);
-        }       
+        }
         return cardNum.toString();
     }
 
-    //login
+    public static String generateRefNum() {
+        Random random = new Random();
+        StringBuilder refNum = new StringBuilder();
+        for (int i = 0; i < 13; i++) {
+            int digit = random.nextInt(10);
+            refNum.append(digit);
+        }
+        return refNum.toString();
+    }
+
+    // login
     public void login() {
-        String firstName,lastName,cardNum,cardPin;
+        String cardNum, cardPin;
 
-    
-
-        System.out.println("~~~~~~~~~~Welcome to the TFPH Banking System!~~~~~~~~~~");
-        //while true for user input validation. uulit kapag mali/wala sa dummy data
+        System.out.println("\n\n~~~~~~~~~~Welcome to the TFPH Banking System!~~~~~~~~~~");
+        // while true for user input validation. uulit kapag mali/wala sa dummy data
         while (true) {
-            System.out.print("Enter your first name: ");
-            firstName = sc.nextLine();
-            System.out.print("Enter your last name: ");
-            lastName = sc.nextLine();
             System.out.print("Enter your card number: ");
             cardNum = sc.nextLine();
+            this.account = this.dummyData.get(cardNum);
+            System.out.println("Welcome, " + account.getFirstName() + " " + account.getLastName() + "!");               
             boolean found = userChecker(cardNum);
             if (!found) {
                 System.out.println("User not found. Please check your details and try again.");
                 continue;
             }
             break;
-            
         }
-
-
 
         while (true) {
             System.out.print("Enter your card pin: ");
@@ -130,14 +97,13 @@ public class Methods {
                 System.out.println("Incorrect pin. Please try again.");
                 continue;
             }
-            this.account = dummyData.get(cardNum);
             break;
         }
     }
 
-    //create account
+    // create account
     public void createAccount() {
-        System.out.println("~~~~~~~~~~Create Account~~~~~~~~~~");
+        System.out.println("\n\n~~~~~~~~~~Create Account~~~~~~~~~~");
         System.out.print("Enter your first name: ");
         String firstName = sc.nextLine();
         System.out.print("Enter your last name: ");
@@ -155,77 +121,68 @@ public class Methods {
                 System.out.print("Invalid pin. Please enter a 4-digit pin.");
             }
         }
-        
+
         addData(cardNum, firstName, lastName, cardPin, 0);
-        
+
     }
-    
-    //user checker
+
+    // user checker
     public boolean userChecker(String cardNum) {
-        Optional<Account> user = this.dummyData.values().stream()
-                .filter(u -> u.getCardNum().equals(cardNum))
-                .findFirst();
-
-        if (!user.isPresent()) {
-            return false;
-        }
-        return true;
+        Account user = this.dummyData.get(cardNum);
+        return user != null && user.getCardNum().equals(cardNum);
     }
-    
-    public boolean pinChecker(String cardNum, String cardPin) {
-        Optional<Account> user = this.dummyData.values().stream()
-                .filter(u -> u.getCardNum().equals(cardNum) && u.getCardPin().equals(cardPin))
-                .findFirst();
 
-        if (!user.isPresent()) {
-            return false;
-        }
-        return true;
+    public boolean pinChecker(String cardNum, String cardPin) {
+        Account user = this.dummyData.get(cardNum);
+        return user != null && user.getCardPin().equals(cardPin);
     }
 
     public void menu() {
-        System.out.println("~~~~~~~~~~Welcome to the TFPH Banking System Menu!~~~~~~~~~~");
+        System.out.println("\n\n~~~~~~~~~~Welcome to the Menu!~~~~~~~~~~");
         System.out.println("1. Withdraw");
         System.out.println("2. Deposit");
         System.out.println("3. Send Money");
         System.out.println("4. View Balance and Account Details");
         System.out.println("5. Edit Card Details");
         System.out.println("6. View Transaction History");
+        System.out.println("7. Done");
         System.out.print("Enter your choice: ");
         int choice = sc.nextInt();
+        sc.nextLine();
 
+        //
         
         switch (choice) {
             case 1:
-                Methods methods = new Methods();
-                methods.Withdraw(0);
+                this.Withdraw(0);
                 break;
-
             case 2:
-                //deposit
+                // deposit
                 break;
             case 3:
                 transfer();
                 break;
             case 4:
-                //view balance and account details
+                // view balance and account details
                 break;
             case 5:
-                //edit card details
+                editCardDetails();
                 break;
             case 6:
-                //view transaction history
+                // view transaction history
+                break;
+            case 7:
+                System.out.println("Thank you for using the TFPH Banking System!");
                 break;
             default:
                 System.out.println("Invalid choice. Please try again.");
         }
     }
 
-
-    //money transfer
+    // money transfer
     public void transfer() {
         String cardNum = account.getCardNum();
-        System.out.println("~~~~~~~~~~Transfer Money~~~~~~~~~~");
+        System.out.println("\n\n~~~~~~~~~~Send Money~~~~~~~~~~");
         while (true) {
             System.out.print("Enter the recipient's card number: ");
             String recipientCardNum = sc.nextLine();
@@ -248,23 +205,22 @@ public class Methods {
             System.out.print("Message (Optional): ");
             String message = sc.nextLine();
 
-            Optional<Account> recipient = this.dummyData.values().stream()
-                    .filter(u -> u.getCardNum().equals(recipientCardNum))
-                    .findFirst();
-
-            if (!recipient.isPresent()) {
+            Account recipient = this.dummyData.get(recipientCardNum);
+            boolean recipientExists = recipient != null;
+            if (!recipientExists) {
                 System.out.println("Recipient not found. Please check the card number and try again.");
                 continue;
             } else {
                 System.out.println(
-                        "Transferring to " + recipient.get().getFirstName() + " " + recipient.get().getLastName()
+                        "Transferring to " + recipient.getFirstName() + " " + recipient.getLastName()
                                 + "?[yes or no]");
                 String dec = sc.nextLine();
                 if (dec.equalsIgnoreCase("yes")) {
-                    System.out.println("Transfer successful!");
+                    System.out.println("Money sent successfully!");
                     System.out.println("Amount: " + amount);
                     System.out.println("Message: " + message);
-                    recipient.get().setBalance(recipient.get().getBalance() + amount);
+                    System.out.println("Reference Number: " + generateRefNum());
+                    recipient.setBalance(recipient.getBalance() + amount);
                     this.dummyData.get(cardNum).setBalance(account.getBalance() - amount);
                 } else {
                     System.out.println("Transfer cancelled.");
@@ -275,11 +231,12 @@ public class Methods {
     }
 
     public void editCardDetails() {
-        System.out.println("~~~~~~~~~~Edit Card Details~~~~~~~~~~");
+        System.out.println("\n\n~~~~~~~~~~Edit Card Details~~~~~~~~~~");
         System.out.println("1. Name");
         System.out.println("2. Card Pin");
         System.out.print("Enter details you want to edit: ");
         int choice = sc.nextInt();
+        sc.nextLine();
 
         switch (choice) {
             case 1:

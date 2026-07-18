@@ -2,9 +2,8 @@ import java.util.Scanner;
 
 public class Main{
     public static void main(String[] args) {
-        Account a = new Account();
-        a.setBalance(5000);
-        Methods m = new Methods(a);
+
+        Methods m = new Methods();
         Scanner sc = new Scanner(System.in);
 
         //switch for create or login
@@ -12,7 +11,8 @@ public class Main{
         System.out.println("2. Login");
         System.out.print("Enter your choice: ");
         int choice = sc.nextInt();
-        
+        sc.nextLine(); 
+
         switch(choice){
             case 1:
                 m.createAccount();
@@ -25,7 +25,8 @@ public class Main{
             default:
                 //input error handling here
                 System.out.println("Invalid choice. Please try again.");
-        } 
-        sc.close();
+                break;
+        }
+
     }
 }
