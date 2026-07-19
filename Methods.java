@@ -245,6 +245,7 @@ public class Methods {
                     break;
                 case 4:
                     // view balance and account details
+                    viewbalance();
                     break;
                 case 5:
                     editCardDetails();
@@ -391,6 +392,11 @@ public class Methods {
             System.out.println("Balance:     [Php. " + account.getBalance());
             System.out.println("---------------------------------\n\n");
         });
+    }
+
+
+    public void viewbalance(){
+        System.out.println("Name: " + account.getFirstName()+ account.getLastName());
     }
 }
 

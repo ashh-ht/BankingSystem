@@ -1,6 +1,7 @@
 public class Account {
     private String cardNum, firstName, lastName, cardPin;
     private double balance;
+    HashMap<String, Transaction> transactionHistory = new HashMap<String, Transaction>();
     //string ang cardnum and cardpin kasi para mas madali sa checking. and also hnd naman gagamitin for calculations kaya mas okay na string
     
     public Account(String cardNum, String firstName, String lastName, String cardPin, double balance) {
@@ -50,6 +51,9 @@ public class Account {
     public void setBalance(double balance) {
         this.balance = balance;
     }
+
+    
+
 
     class Color {
         public static final String RESET = "\u001B[0m";
