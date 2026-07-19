@@ -4,8 +4,9 @@ public class Account {
     private String cardNum, firstName, lastName, cardPin;
     private double balance;
     HashMap<String, Transaction> transactionHistory = new HashMap<String, Transaction>();
-    //string ang cardnum and cardpin kasi para mas madali sa checking. and also hnd naman gagamitin for calculations kaya mas okay na string
-    
+    // string ang cardnum and cardpin kasi para mas madali sa checking. and also hnd
+    // naman gagamitin for calculations kaya mas okay na string
+
     public Account(String cardNum, String firstName, String lastName, String cardPin, double balance) {
         this.cardNum = cardNum;
         this.firstName = firstName;
@@ -13,7 +14,7 @@ public class Account {
         this.cardPin = cardPin;
         this.balance = balance;
     }
-    
+
     public String getCardNum() {
         return cardNum;
     }
@@ -21,15 +22,15 @@ public class Account {
     public void setCardNum(String cardNum) {
         this.cardNum = cardNum;
     }
-    
+
     public String getFirstName() {
         return firstName;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-    }               
-    
+    }
+
     public String getLastName() {
         return lastName;
     }
@@ -37,7 +38,7 @@ public class Account {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    
+
     public String getCardPin() {
         return cardPin;
     }
@@ -53,6 +54,7 @@ public class Account {
     public void setBalance(double balance) {
         this.balance = balance;
     }
+
     public HashMap<String, Transaction> getTransactionHistory() {
         return transactionHistory;
     }
@@ -61,9 +63,6 @@ public class Account {
         Transaction t = new Transaction(refNum, type, amount);
         transactionHistory.put(refNum, t);
     }
-
-    
-
 
     class Color {
         public static final String RESET = "\u001B[0m";

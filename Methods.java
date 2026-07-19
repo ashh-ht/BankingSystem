@@ -45,9 +45,12 @@ public class Methods {
     }
 
     public void showUser() {
-        System.out.println("Name: " + account.getFirstName() + " " + account.getLastName());
-        System.out.println("Card Number: " + account.getCardNum());
-        System.out.println("Balance: " + account.getBalance());
+        System.out.println(Account.Color.GREEN + "\n\n--------------------------------" + Account.Color.RESET);
+        System.out.println(Account.Color.YELLOW + "Name: " + Account.Color.RESET + account.getFirstName() + " " + account.getLastName());
+        System.out.println(Account.Color.YELLOW + "Card Number: " + Account.Color.RESET + account.getCardNum());
+        System.out.printf(Account.Color.YELLOW + "Balance: %.2f" + Account.Color.RESET,
+                account.getBalance());
+        System.out.println(Account.Color.GREEN + "\n--------------------------------" + Account.Color.RESET);
     }
 
     // login
@@ -68,7 +71,7 @@ public class Methods {
             }
             boolean found = userChecker(cardNum);
             if (!found) {
-                System.out.println("User not found. Please check your details and try again.");
+                System.out.println(Account.Color.BOLD + Account.Color.RED + "User not found. Please check your details and try again." + Account.Color.RESET);
                 continue;
             }
             this.account = this.dummyData.get(cardNum);
@@ -80,7 +83,7 @@ public class Methods {
             cardPin = sc.nextLine();
             boolean correctPin = pinChecker(cardNum, cardPin);
             if (!correctPin) {
-                System.out.println("Incorrect pin. Please try again.");
+                System.out.println(Account.Color.BOLD + Account.Color.RED + "Incorrect pin. Please try again." + Account.Color.RESET);
                 continue;
             }
             break;
@@ -89,7 +92,7 @@ public class Methods {
 
     // create account
     public void createAccount() {
-        System.out.println("\n\n~~~~~~~~~~Create Account~~~~~~~~~~");
+        System.out.println(Account.Color.BOLD + Account.Color.PURPLE + "\n\n~~~~~~~~~~Create Account~~~~~~~~~~" + Account.Color.RESET);
         System.out.print("Enter your first name: ");
         String firstName = sc.nextLine();
         System.out.print("Enter your last name: ");
@@ -104,7 +107,7 @@ public class Methods {
                 System.out.print("Account created successfully!");
                 break;
             } else {
-                System.out.println("Invalid pin. Please enter a 4-digit pin.");
+                System.out.println(Account.Color.BOLD + Account.Color.RED + "Invalid pin. Please enter a 4-digit pin." +Account.Color.RESET);
             }
         }
 
@@ -155,10 +158,10 @@ public class Methods {
 
             switch (choice) {
                 case 1:
-                    Withdraw();
+                    withdraw();
                     break;
                 case 2:
-                    Deposit();
+                    deposit();
                     break;
                 case 3:
                     transfer();
@@ -176,8 +179,6 @@ public class Methods {
                     System.out.println(Account.Color.BOLD + Account.Color.GREEN
                             + "Thank you for using the TFPH Banking System!" + Account.Color.RESET);
                     return;
-                default:
-                    break;
             }
         }
 
@@ -186,8 +187,8 @@ public class Methods {
     // money transfer
     public void transfer() {
         double balance = account.getBalance();
-        //sender referral
-        String sender = Methods.generateRefNum();
+        // sender referral
+        String sender = generateRefNum();
         System.out.println(
                 Account.Color.BOLD + Account.Color.PURPLE + "\n\n~~~~~~~~~~Send Money~~~~~~~~~~" + Account.Color.RESET);
         while (true) {
@@ -225,24 +226,25 @@ public class Methods {
                         + "Recipient not found. Please check the card number and try again." + Account.Color.RESET);
                 continue;
             } else {
-                System.out.println(
+                System.out.print(
                         "Transferring to " + recipient.getFirstName() + " " + recipient.getLastName()
-                                + "?[yes or no]");
+                                + "?[yes or no]: ");
                 String dec = sc.nextLine();
                 if (dec.equalsIgnoreCase("yes")) {
-                    System.out.println(Account.Color.BOLD + Account.Color.YELLOW + "Money sent successfully!"
+                    System.out.println(Account.Color.BOLD + Account.Color.YELLOW + "\nMoney sent successfully!"
                             + Account.Color.RESET);
-                    System.out.println("Amount: " + amount);
-                    System.out.println("Message: " + message);
-                    System.out.println("Reference Number: " + generateRefNum());
+                    System.out.printf("%nAmount: %.2f", amount);
+                    System.out.println("\nMessage: " + message);
+                    System.out.println("Reference Number: " + sender);
                     recipient.setBalance(recipient.getBalance() + amount);
                     account.setBalance(account.getBalance() - amount);
-                    account.addTransaction(sender, message, amount);
+                    System.out.printf("New balance: %.2f", account.getBalance());
 
-                    // showBalance func here...
-                    // System.out.println("Your new balance is: " + account.getBalance());
-                    // System.out.println("Recipient's new balance is: " + recipient.getBalance());
-                } else {
+                    account.addTransaction(sender, "Transferred to " + recipient.getFirstName() + " " + recipient.getLastName(), amount);
+
+                } else if (dec.equalsIgnoreCase("no") || dec.equalsIgnoreCase("n")) {
+                    break;
+                }else {
                     System.out.println("Transfer cancelled.");
                     continue;
                 }
@@ -285,43 +287,46 @@ public class Methods {
                     String newLastName = sc.nextLine();
                     account.setFirstName(newFirstName);
                     account.setLastName(newLastName);
-                    printAllAccounts();
                     System.out.println("Name updated successfully!");
                     break;
                 case 2:
-                    System.out.print("Enter your new card pin: ");
-                    String newCardPin = sc.nextLine();
-                    account.setCardPin(newCardPin);
-                    printAllAccounts();
-                    System.out.println("Card pin updated successfully!");
+                    while (true) {
+                        System.out.print("Enter your new card pin: ");
+                        String newCardPin = sc.nextLine();
+                        if (newCardPin.matches("\\d{4}")) {
+                            System.out.println("Card pin updated successfully!");
+                            account.setCardPin(newCardPin);
+                            break;
+                        }
+                        System.out.println(
+                                    Account.Color.BOLD + Account.Color.RED + "Please enter four-digit number."
+                                            + Account.Color.RESET);
+                    }
                     break;
                 case 0:
                     return;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
-                    break;
             }
         }
 
     }
 
     // WITHDRAWAL FUNCTION - Hendrick
-        public void Withdraw() {
+    public void withdraw() {
         double Amount = 0;
-        String Witdrawer = Methods.generateRefNum();
+        String Witdrawer = generateRefNum();
         // i created this to create a loop to avoid error on withdrawal and Deposit
         boolean Validity = false;
-        System.out.println("~~~~~~~~~~Withdrawal~~~~~~~~~~");
+        System.out.println(Account.Color.BOLD + Account.Color.PURPLE + "\n\n~~~~~~~~~~Withdrawal~~~~~~~~~~" + Account.Color.RESET);
 
         // Error handling this loop makes that whenever a user tries to use anything but
         // numbers will be put in a loop and catch error to prevent crash
         while (!Validity) {
-            System.out.println("Please Enter the amount: ");
+            System.out.print("Enter amount: ");
             try {
                 Amount = sc.nextDouble();
                 Validity = true;
             } catch (InputMismatchException ex) {
-                System.out.println("Invalid number input, try again.");
+                System.out.println(Account.Color.BOLD + Account.Color.RED + "Invalid number input, try again." + Account.Color.RESET);
                 sc.nextLine();
             }
         }
@@ -329,49 +334,48 @@ public class Methods {
         // If else Deposit thingy basically I just change the operation on the
         // setbalance
         if (Amount < 100) {
-            System.out.println("The minimum required to withdraw is Php 100:  " + account.getBalance());
+            System.out.println("The minimum required to withdraw is Php 100.");
         } else if (Amount > 20000) {
-            System.out.println("The maximum required to withdraw is Php 20,000:  " + account.getBalance());
+            System.out.println("The maximum required to withdraw is Php 20,000.");
         } else if (Amount > account.getBalance()) {
-            System.out.println("Insufficient credits Your current Balance:  " + account.getBalance());
+            System.out.println("Insufficient credits. Your current Balance is " + account.getBalance());
         } else {
             // Subtract the balance of the user to the amount that was inputted then updates
             // it using the setBalance
             account.setBalance(account.getBalance() - (double) Amount);
-            account.addTransaction(Witdrawer, "Withdrawed", Amount);
-            System.out.printf("~~~ Withdraw Successful ~~~%nAmount Deposited: %.2f%nNew Balance: %.2f%n", Amount,
+            account.addTransaction(Witdrawer, "Withdraw", Amount);
+            System.out.printf(Account.Color.YELLOW + "~~~ Withdraw Successful ~~~" + Account.Color.RESET + "%nAmount Deposited: %.2f%nNew Balance: %.2f%n", Amount,
                     account.getBalance());
+            System.out.println("Reference Number: " + Witdrawer);
         }
     }
 
     // DEPOSIT FUNCTION - Hendrick
-    public void Deposit() {
+    public void deposit() {
         double Amount = 0;
         boolean Validity = false;
-        //refferal 
-        String Depositing = Methods.generateRefNum();
-        System.out.println("~~~Depositing~~~");
+        // refferal
+        String Depositing = generateRefNum();
+        System.out.println(Account.Color.BOLD + Account.Color.PURPLE + "\n\n~~~~~~~~~~Deposit~~~~~~~~~~" + Account.Color.RESET);
 
         // Error handling this loop makes that whenever a user tries to use anything but
         // numbers will be put in a loop and catch error to prevent crash
         while (!Validity) {
-            System.out.println("Please Enter the amount: ");
+            System.out.print("Enter amount: ");
             try {
                 Amount = sc.nextDouble();
                 Validity = true;
             } catch (InputMismatchException ex) {
-                System.out.println("Invalid number input, try again.");
+                System.out.println(Account.Color.BOLD + Account.Color.RED + "Invalid number input. Try again." + Account.Color.RESET);
                 sc.nextLine();
             }
         }
 
         // If else Deposit thingy
         if (Amount < 100) {
-            System.out.println("The minimum required to deposit is Php 100:  " + account.getBalance());
+            System.out.println("The minimum required to deposit is Php 100.");
         } else if (Amount > 20000) {
-            System.out.println("The maximum required deposit is Php 20,000:  " + account.getBalance());
-        } else if (Amount > account.getBalance()) {
-            System.out.println("Insufficient credits Your current Balance:  " + account.getBalance());
+            System.out.println("The maximum required deposit is Php 20,000.");
         } else {
             // add the balance of the user to the amount that was inputted then updates it
             // using the setBalance
@@ -379,57 +383,41 @@ public class Methods {
             // formatted into two decimal place
 
             // add referral to the transaction
-            account.addTransaction(Depositing,"Deposit" ,Amount);
+            account.addTransaction(Depositing, "Deposit", Amount);
 
-            System.out.printf("~~~ Deposit Successful ~~~%nAmount Deposited: %.2f%nNew Balance: %.2f%n", Amount,
+            System.out.printf(Account.Color.YELLOW + "~~~ Deposit Successful ~~~" + Account.Color.RESET + "%nAmount Deposited: %.2f%nNew Balance: %.2f%n", Amount,
                     account.getBalance());
+            System.out.println("Reference Number: " + Depositing);
         }
 
     }
 
-    // pang try lang
-    public void printAllAccounts() {
-        System.out.println("=== ALL REGISTERED ACCOUNTS ===");
+    public void viewbalance() {
+        System.out.println(Account.Color.BOLD + Account.Color.PURPLE+ "\n\n~~~~~~~~~~Balance and Account Details~~~~~~~~~~" + Account.Color.RESET);
+        System.out.printf(Account.Color.BOLD + Account.Color.YELLOW +"%nTotal Balance: " + Account.Color.RESET + "Php. %.2f", account.getBalance());
+        System.out.println(Account.Color.BOLD + Account.Color.YELLOW + "\nAccount name:  " + Account.Color.RESET + account.getFirstName() + " " + account.getLastName());
+        System.out.println(Account.Color.BOLD + Account.Color.YELLOW + "Card number:   " + Account.Color.RESET + account.getCardNum());
 
-        // key = cardNumber, value = account
-        dummyData.forEach((cardNumber, account) -> {
-            System.out.println("\n\nCard Number: " + cardNumber);
-            System.out.println("Owner:       " + account.getFirstName() + " " + account.getLastName());
-            System.out.println("Balance:     [Php. " + account.getBalance());
-            System.out.println("---------------------------------\n\n");
-        });
-    }public void viewbalance() {
+    }
 
-        System.out.println();
-        System.out.println("----------------------------------------");
-        System.out.println("~~~ BALANCE OVERVIEW ~~~");
-        System.out.println("----------------------------------------");
-        System.out.println("Total Balance: $" + account.getBalance());
-        System.out.println("Account name:  $" + account.getFirstName() + account.getLastName());
-        System.out.println("Card number:   $" + account.getCardNum());
-
-
-
-
-    }   public void viewTransactionHistory() {
-        System.out.println("\n----------------------------------------");
-        System.out.println("           TRANSACTION HISTORY");
-        System.out.println("----------------------------------------");
+    public void viewTransactionHistory() {
+        System.out.println(Account.Color.BOLD + Account.Color.PURPLE + "\n~~~~~~~~~~Transaction History~~~~~~~~~~"
+                + Account.Color.RESET);
 
         Map<String, Transaction> history = account.getTransactionHistory();
 
         if (history.isEmpty()) {
-        System.out.println("No transactions yet.");
+            System.out.println("No transactions yet.");
         }
 
         else {
-        for (Map.Entry<String, Transaction> entry : history.entrySet()) {
-            Transaction t = entry.getValue();
-            System.out.println("Ref: " + entry.getKey() + " | " 
-                + t.getType() + " | Php " + t.getAmount());
+            for (Map.Entry<String, Transaction> entry : history.entrySet()) {
+                Transaction t = entry.getValue();
+                System.out.printf("\nRef: " + entry.getKey() + " | "
+                        + t.getType() + " | Php %.2f", t.getAmount());
+            }
         }
-    }
 
-    System.out.println("----------------------------------------");
+        System.out.println("\n----------------------------------------");
     }
 }

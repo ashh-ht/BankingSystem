@@ -1,15 +1,16 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Main{
+public class Main {
     public static void main(String[] args) {
         // final Account acc;
         Methods m = new Methods();
         Scanner sc = new Scanner(System.in);
 
         while (true) {
-            //switch for create or login
-            System.out.println(Account.Color.VIOLET + Account.Color.BOLD + "Select from the following to start the system." + Account.Color.RESET);
+            // switch for create or login
+            System.out.println(Account.Color.VIOLET + Account.Color.BOLD
+                    + "Select from the following to start the system." + Account.Color.RESET);
             System.out.println("1. Create Account");
             System.out.println("2. Login");
             System.out.println("3. EXIT");
@@ -30,7 +31,7 @@ public class Main{
                 sc.nextLine();
             }
 
-            switch(choice){
+            switch (choice) {
                 case 1:
                     m.createAccount();
                     m.menu();
@@ -40,11 +41,13 @@ public class Main{
                     m.menu();
                     break;
                 case 3:
-                    System.out.println(Account.Color.RED + "NOTE: " + Account.Color.RESET + "If you exit the program, all data will be lost.");
+                    System.out.println(Account.Color.RED + "NOTE: " + Account.Color.RESET
+                            + "If you exit the program, all data will be lost.");
                     System.out.print("Are you sure you want to exit? (Y/N): ");
                     String exitChoice = sc.nextLine();
                     if (exitChoice.equalsIgnoreCase("Y") || exitChoice.equalsIgnoreCase("yes")) {
-                        System.out.println(Account.Color.VIOLET + Account.Color.BOLD + "Exiting the program. Goodbye!" + Account.Color.RESET);
+                        System.out.println(Account.Color.VIOLET + Account.Color.BOLD + "Exiting the program. Goodbye!"
+                                + Account.Color.RESET);
                         sc.close();
                         System.exit(0);
                     }
@@ -53,7 +56,6 @@ public class Main{
                     break;
             }
         }
-        
 
     }
 }
