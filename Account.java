@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class Account {
     private String cardNum, firstName, lastName, cardPin;
     private double balance;
@@ -50,6 +52,14 @@ public class Account {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+    public HashMap<String, Transaction> getTransactionHistory() {
+        return transactionHistory;
+    }
+
+    public void addTransaction(String refNum, String type, double amount) {
+        Transaction t = new Transaction(refNum, type, amount);
+        transactionHistory.put(refNum, t);
     }
 
     

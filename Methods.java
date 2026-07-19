@@ -4,101 +4,19 @@ public class Methods {
     Scanner sc = new Scanner(System.in);
     private Account account;
 
-    // WITHDRAWAL FUNCTION - Hendrick
-        public void withdraw(){
-        double Amount = 0;
-        // i created this to create a loop to avoid error on withdrawal and Deposit
-        boolean Validity = false;
-        System.out.println("~~~~~~~~~~Withdrawal~~~~~~~~~~");
-        
-        
-        //Error handling  this loop makes that whenever a user tries to use anything but numbers will be put in a loop and catch error to prevent crash
-        while(!Validity){
-            System.out.println("Please Enter the amount: ");
-            try{
-            Amount = sc.nextDouble();
-            Validity = true;
-        }catch(InputMismatchException ex){
-            System.out.println("Invalid number input, try again.");
-            sc.nextLine();
-        }
-    }
-        
-        // If else Deposit thingy basically I just change the operation on the setbalance
-        if( Amount < 100){
-            System.out.println("The minimum required to withdraw is Php 100:  " + account.getBalance());
-        } 
-        else if( Amount > 20000){
-            System.out.println("The maximum required to withdraw is Php 20,000:  " + account.getBalance());
-        }
-        else if ( Amount > account.getBalance()){
-            System.out.println("Insufficient credits Your current Balance:  " + account.getBalance());
-        }
-        else{
-            // Subtract the balance of the user to the amount that was inputted then updates it using the setBalance
-            account.setBalance(account.getBalance() - (double)Amount);
-            System.out.printf("~~~ Withdraw Successful ~~~%nAmount Deposited: %.2f%nNew Balance: %.2f%n", Amount, account.getBalance());
-                }
-            }
-            
-        
-        
-    // DEPOSIT FUNCTION - Hendrick
-            public void deposit(){
-        // i created this to create a loop to avoid error on withdrawal and Deposit
-        double Amount = 0;
-        boolean Validity = false;
-        System.out.println("~~~Depositing~~~");
-        
-        
-        //Error handling  this loop makes that whenever a user tries to use anything but numbers will be put in a loop and catch error to prevent crash
-        while(!Validity){
-            System.out.println("Please Enter the amount: ");
-            try{
-            Amount = sc.nextDouble();
-            Validity = true;
-        }catch(InputMismatchException ex){
-            System.out.println("Invalid number input, try again.");
-            sc.nextLine();
-        }
-    }
-        
-        // If else Deposit thingy
-        if( Amount < 100){
-            System.out.println("The minimum required to deposit is Php 100:  " + account.getBalance());
-        } 
-        else if( Amount > 20000){
-            System.out.println("The maximum required deposit is Php 20,000:  " + account.getBalance());
-        }
-        else if ( Amount > account.getBalance()){
-            System.out.println("Insufficient credits Your current Balance:  " + account.getBalance());
-        }
-        else{
-            // add the balance of the user to the amount that was inputted then updates it using the setBalance
-            account.setBalance(account.getBalance() + (float)Amount);
-            //formatted into two decimal place
-            System.out.printf("~~~ Deposit Successful ~~~%nAmount Deposited: %.2f%nNew Balance: %.2f%n", Amount, account.getBalance());
-            }
-        ///////////////////////////////////
-            }
-        
     // 3. transfer
     // -minimum of 50, maximum of 10,000 pesos
-    // 4. view balance and account details 
+    // 4. view balance and account details
     // -acc name
     // -card number
     // -balance
     // 5. edit card details
-    // 6. historygit add Main.java Methods.java
-
-
-
-
+    // 6. history
 
     private final Map<String, Account> dummyData = new HashMap<>(Map.of(
             "1234567899876543", new Account("1234567899876543", "Sylvia Heart", "Sulla", "1234", 100000),
             "9876543211234567", new Account("9876543211234567", "John Francis", "Hernandez", "5678", 0),
-            "4567891234567890", new Account("4567891234567890", "Jane Marie", "Dela Cruz", "9012", 0)));
+            "4567891234567890", new Account("4567891234567890", "John Hendrick", "Fulgencio", "9012", 0)));
 
     public void addData(String cardNum, String firstName, String lastName, String cardPin, double balance) {
         Account newData = new Account(cardNum, firstName, lastName, cardPin, balance);
@@ -136,7 +54,8 @@ public class Methods {
     public void login() {
         String cardNum, cardPin;
 
-        System.out.println(Account.Color.CYAN + Account.Color.BOLD + "\n\n~~~~~~~~~~Welcome to the TFPH Banking System!~~~~~~~~~~" + Account.Color.RESET);
+        System.out.println(Account.Color.CYAN + Account.Color.BOLD
+                + "\n\n~~~~~~~~~~Welcome to the TFPH Banking System!~~~~~~~~~~" + Account.Color.RESET);
         // while true for user input validation. uulit kapag mali/wala sa dummy data
         while (true) {
             System.out.print("Enter your card number: ");
@@ -204,11 +123,11 @@ public class Methods {
         return user != null && user.getCardPin().equals(cardPin);
     }
 
-
     public void menu() {
         showUser();
         while (true) {
-            System.out.println(Account.Color.BOLD + Account.Color.BLUE + "\n\n~~~~~~~~~~Welcome to the Menu!~~~~~~~~~~" + Account.Color.RESET);
+            System.out.println(Account.Color.BOLD + Account.Color.BLUE + "\n\n~~~~~~~~~~Welcome to the Menu!~~~~~~~~~~"
+                    + Account.Color.RESET);
             System.out.println("1. Withdraw");
             System.out.println("2. Deposit");
             System.out.println("3. Send Money");
@@ -222,7 +141,8 @@ public class Methods {
                 choice = sc.nextInt();
                 sc.nextLine();
                 if (choice < 1 || choice > 7) {
-                    throw new IllegalArgumentException(Account.Color.BOLD + Account.Color.RED + "Invalid choice. Please enter a number between 1 and 7.\n" + Account.Color.RESET);
+                    throw new IllegalArgumentException(Account.Color.BOLD + Account.Color.RED
+                            + "Invalid choice. Please enter a number between 1 and 7.\n" + Account.Color.RESET);
                 }
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -235,38 +155,41 @@ public class Methods {
 
             switch (choice) {
                 case 1:
-                    withdraw();
+                    Withdraw();
                     break;
                 case 2:
-                    deposit();
+                    Deposit();
                     break;
                 case 3:
                     transfer();
                     break;
                 case 4:
-                    // view balance and account details
                     viewbalance();
                     break;
                 case 5:
                     editCardDetails();
                     break;
                 case 6:
-                    // view transaction history
+                    viewTransactionHistory();
                     break;
                 case 7:
-                    System.out.println(Account.Color.BOLD + Account.Color.GREEN + "Thank you for using the TFPH Banking System!" + Account.Color.RESET);
+                    System.out.println(Account.Color.BOLD + Account.Color.GREEN
+                            + "Thank you for using the TFPH Banking System!" + Account.Color.RESET);
                     return;
                 default:
                     break;
             }
         }
-        
+
     }
 
     // money transfer
     public void transfer() {
         double balance = account.getBalance();
-        System.out.println(Account.Color.BOLD + Account.Color.PURPLE + "\n\n~~~~~~~~~~Send Money~~~~~~~~~~" + Account.Color.RESET);
+        //sender referral
+        String sender = Methods.generateRefNum();
+        System.out.println(
+                Account.Color.BOLD + Account.Color.PURPLE + "\n\n~~~~~~~~~~Send Money~~~~~~~~~~" + Account.Color.RESET);
         while (true) {
             System.out.print("Enter the recipient's card number: ");
             String recipientCardNum = sc.nextLine();
@@ -276,7 +199,8 @@ public class Methods {
                 try {
                     amount = Double.parseDouble(sc.nextLine());
                 } catch (NumberFormatException e) {
-                    System.out.println(Account.Color.BOLD + Account.Color.RED + "Invalid amount. Please enter a valid number." + Account.Color.RESET);
+                    System.out.println(Account.Color.BOLD + Account.Color.RED
+                            + "Invalid amount. Please enter a valid number." + Account.Color.RESET);
                 }
                 if (amount > balance) {
                     System.out.println(balance);
@@ -297,7 +221,8 @@ public class Methods {
             Account recipient = this.dummyData.get(recipientCardNum);
             boolean recipientExists = recipient != null;
             if (!recipientExists) {
-                System.out.println(Account.Color.BOLD + Account.Color.RED + "Recipient not found. Please check the card number and try again." + Account.Color.RESET);
+                System.out.println(Account.Color.BOLD + Account.Color.RED
+                        + "Recipient not found. Please check the card number and try again." + Account.Color.RESET);
                 continue;
             } else {
                 System.out.println(
@@ -312,8 +237,9 @@ public class Methods {
                     System.out.println("Reference Number: " + generateRefNum());
                     recipient.setBalance(recipient.getBalance() + amount);
                     account.setBalance(account.getBalance() - amount);
+                    account.addTransaction(sender, message, amount);
 
-                    //showBalance func here...
+                    // showBalance func here...
                     // System.out.println("Your new balance is: " + account.getBalance());
                     // System.out.println("Recipient's new balance is: " + recipient.getBalance());
                 } else {
@@ -344,7 +270,7 @@ public class Methods {
                 }
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
-            } catch (InputMismatchException err) { 
+            } catch (InputMismatchException err) {
                 System.out.println(Account.Color.BOLD + Account.Color.RED
                         + "Invalid input. Please enter a number.\n" + Account.Color.RESET);
                 sc.nextLine();
@@ -378,10 +304,90 @@ public class Methods {
         }
 
     }
-    
 
-    
-    //pang try lang
+    // WITHDRAWAL FUNCTION - Hendrick
+        public void Withdraw() {
+        double Amount = 0;
+        String Witdrawer = Methods.generateRefNum();
+        // i created this to create a loop to avoid error on withdrawal and Deposit
+        boolean Validity = false;
+        System.out.println("~~~~~~~~~~Withdrawal~~~~~~~~~~");
+
+        // Error handling this loop makes that whenever a user tries to use anything but
+        // numbers will be put in a loop and catch error to prevent crash
+        while (!Validity) {
+            System.out.println("Please Enter the amount: ");
+            try {
+                Amount = sc.nextDouble();
+                Validity = true;
+            } catch (InputMismatchException ex) {
+                System.out.println("Invalid number input, try again.");
+                sc.nextLine();
+            }
+        }
+
+        // If else Deposit thingy basically I just change the operation on the
+        // setbalance
+        if (Amount < 100) {
+            System.out.println("The minimum required to withdraw is Php 100:  " + account.getBalance());
+        } else if (Amount > 20000) {
+            System.out.println("The maximum required to withdraw is Php 20,000:  " + account.getBalance());
+        } else if (Amount > account.getBalance()) {
+            System.out.println("Insufficient credits Your current Balance:  " + account.getBalance());
+        } else {
+            // Subtract the balance of the user to the amount that was inputted then updates
+            // it using the setBalance
+            account.setBalance(account.getBalance() - (double) Amount);
+            account.addTransaction(Witdrawer, "Withdrawed", Amount);
+            System.out.printf("~~~ Withdraw Successful ~~~%nAmount Deposited: %.2f%nNew Balance: %.2f%n", Amount,
+                    account.getBalance());
+        }
+    }
+
+    // DEPOSIT FUNCTION - Hendrick
+    public void Deposit() {
+        double Amount = 0;
+        boolean Validity = false;
+        //refferal 
+        String Depositing = Methods.generateRefNum();
+        System.out.println("~~~Depositing~~~");
+
+        // Error handling this loop makes that whenever a user tries to use anything but
+        // numbers will be put in a loop and catch error to prevent crash
+        while (!Validity) {
+            System.out.println("Please Enter the amount: ");
+            try {
+                Amount = sc.nextDouble();
+                Validity = true;
+            } catch (InputMismatchException ex) {
+                System.out.println("Invalid number input, try again.");
+                sc.nextLine();
+            }
+        }
+
+        // If else Deposit thingy
+        if (Amount < 100) {
+            System.out.println("The minimum required to deposit is Php 100:  " + account.getBalance());
+        } else if (Amount > 20000) {
+            System.out.println("The maximum required deposit is Php 20,000:  " + account.getBalance());
+        } else if (Amount > account.getBalance()) {
+            System.out.println("Insufficient credits Your current Balance:  " + account.getBalance());
+        } else {
+            // add the balance of the user to the amount that was inputted then updates it
+            // using the setBalance
+            account.setBalance(account.getBalance() + (float) Amount);
+            // formatted into two decimal place
+
+            // add referral to the transaction
+            account.addTransaction(Depositing,"Deposit" ,Amount);
+
+            System.out.printf("~~~ Deposit Successful ~~~%nAmount Deposited: %.2f%nNew Balance: %.2f%n", Amount,
+                    account.getBalance());
+        }
+
+    }
+
+    // pang try lang
     public void printAllAccounts() {
         System.out.println("=== ALL REGISTERED ACCOUNTS ===");
 
@@ -392,11 +398,38 @@ public class Methods {
             System.out.println("Balance:     [Php. " + account.getBalance());
             System.out.println("---------------------------------\n\n");
         });
+    }public void viewbalance() {
+
+        System.out.println();
+        System.out.println("----------------------------------------");
+        System.out.println("~~~ BALANCE OVERVIEW ~~~");
+        System.out.println("----------------------------------------");
+        System.out.println("Total Balance: $" + account.getBalance());
+        System.out.println("Account name:  $" + account.getFirstName() + account.getLastName());
+        System.out.println("Card number:   $" + account.getCardNum());
+
+
+
+
+    }   public void viewTransactionHistory() {
+        System.out.println("\n----------------------------------------");
+        System.out.println("           TRANSACTION HISTORY");
+        System.out.println("----------------------------------------");
+
+        Map<String, Transaction> history = account.getTransactionHistory();
+
+        if (history.isEmpty()) {
+        System.out.println("No transactions yet.");
+        }
+
+        else {
+        for (Map.Entry<String, Transaction> entry : history.entrySet()) {
+            Transaction t = entry.getValue();
+            System.out.println("Ref: " + entry.getKey() + " | " 
+                + t.getType() + " | Php " + t.getAmount());
+        }
     }
 
-
-    public void viewbalance(){
-        System.out.println("Name: " + account.getFirstName()+ account.getLastName());
+    System.out.println("----------------------------------------");
     }
 }
-
