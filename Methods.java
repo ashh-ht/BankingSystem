@@ -1,17 +1,10 @@
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Methods {
     Scanner sc = new Scanner(System.in);
     private Account account;
-
-    // 3. transfer
-    // -minimum of 50, maximum of 10,000 pesos
-    // 4. view balance and account details
-    // -acc name
-    // -card number
-    // -balance
-    // 5. edit card details
-    // 6. history
 
     private final Map<String, Account> dummyData = new HashMap<>(Map.of(
             "1234567899876543", new Account("1234567899876543", "Sylvia Heart", "Sulla", "1234", 100000),
@@ -42,6 +35,14 @@ public class Methods {
             refNum.append(digit);
         }
         return refNum.toString();
+    }
+
+    public String dateFormatter() {
+        LocalDateTime dateTime = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
+        String formattedDateTime = dateTime.format(format);
+        return formattedDateTime;
+
     }
 
     public void showUser() {
@@ -240,8 +241,8 @@ public class Methods {
                     account.setBalance(account.getBalance() - amount);
                     System.out.printf("New balance: %.2f", account.getBalance());
 
-                    account.addTransaction(sender, "Transferred to " + recipient.getFirstName() + " " + recipient.getLastName(), amount);
-
+                    account.addTransaction(sender, "Transferred to " + recipient.getFirstName() + " " + recipient.getLastName(), amount, dateFormatter());
+                    recipient.addTransaction(sender, "Recieved from "+ account.getFirstName() + " " + account.getLastName(), amount, dateFormatter());
                 } else if (dec.equalsIgnoreCase("no") || dec.equalsIgnoreCase("n")) {
                     break;
                 }else {
@@ -310,7 +311,7 @@ public class Methods {
 
     }
 
-    // WITHDRAWAL FUNCTION - Hendrick
+    // WITHDRAWAL FUNCTION
     public void withdraw() {
         double Amount = 0;
         String Witdrawer = generateRefNum();
@@ -343,20 +344,21 @@ public class Methods {
             // Subtract the balance of the user to the amount that was inputted then updates
             // it using the setBalance
             account.setBalance(account.getBalance() - (double) Amount);
-            account.addTransaction(Witdrawer, "Withdraw", Amount);
+            account.addTransaction(Witdrawer, "Withdraw", Amount, dateFormatter());
             System.out.printf(Account.Color.YELLOW + "~~~ Withdraw Successful ~~~" + Account.Color.RESET + "%nAmount Deposited: %.2f%nNew Balance: %.2f%n", Amount,
                     account.getBalance());
             System.out.println("Reference Number: " + Witdrawer);
         }
     }
 
-    // DEPOSIT FUNCTION - Hendrick
+    // DEPOSIT FUNCTION
     public void deposit() {
         double Amount = 0;
         boolean Validity = false;
         // refferal
         String Depositing = generateRefNum();
-        System.out.println(Account.Color.BOLD + Account.Color.PURPLE + "\n\n~~~~~~~~~~Deposit~~~~~~~~~~" + Account.Color.RESET);
+        System.out.println(
+                Account.Color.BOLD + Account.Color.PURPLE + "\n\n~~~~~~~~~~Deposit~~~~~~~~~~" + Account.Color.RESET);
 
         // Error handling this loop makes that whenever a user tries to use anything but
         // numbers will be put in a loop and catch error to prevent crash
@@ -366,7 +368,8 @@ public class Methods {
                 Amount = sc.nextDouble();
                 Validity = true;
             } catch (InputMismatchException ex) {
-                System.out.println(Account.Color.BOLD + Account.Color.RED + "Invalid number input. Try again." + Account.Color.RESET);
+                System.out.println(Account.Color.BOLD + Account.Color.RED + "Invalid number input. Try again."
+                        + Account.Color.RESET);
                 sc.nextLine();
             }
         }
@@ -383,23 +386,33 @@ public class Methods {
             // formatted into two decimal place
 
             // add referral to the transaction
-            account.addTransaction(Depositing, "Deposit", Amount);
+            account.addTransaction(Depositing, "Deposit", Amount,dateFormatter());
 
-            System.out.printf(Account.Color.YELLOW + "~~~ Deposit Successful ~~~" + Account.Color.RESET + "%nAmount Deposited: %.2f%nNew Balance: %.2f%n", Amount,
+            System.out.printf(
+                    Account.Color.YELLOW + "~~~ Deposit Successful ~~~" + Account.Color.RESET
+                            + "%nAmount Deposited: %.2f%nNew Balance: %.2f%n",
+                    Amount,
                     account.getBalance());
             System.out.println("Reference Number: " + Depositing);
         }
 
     }
 
+    //view balance func
     public void viewbalance() {
-        System.out.println(Account.Color.BOLD + Account.Color.PURPLE+ "\n\n~~~~~~~~~~Balance and Account Details~~~~~~~~~~" + Account.Color.RESET);
-        System.out.printf(Account.Color.BOLD + Account.Color.YELLOW +"%nTotal Balance: " + Account.Color.RESET + "Php. %.2f", account.getBalance());
-        System.out.println(Account.Color.BOLD + Account.Color.YELLOW + "\nAccount name:  " + Account.Color.RESET + account.getFirstName() + " " + account.getLastName());
-        System.out.println(Account.Color.BOLD + Account.Color.YELLOW + "Card number:   " + Account.Color.RESET + account.getCardNum());
+        System.out.println(Account.Color.BOLD + Account.Color.PURPLE
+                + "\n\n~~~~~~~~~~Balance and Account Details~~~~~~~~~~" + Account.Color.RESET);
+        System.out.printf(
+                Account.Color.BOLD + Account.Color.YELLOW + "%nTotal Balance: " + Account.Color.RESET + "Php. %.2f",
+                account.getBalance());
+        System.out.println(Account.Color.BOLD + Account.Color.YELLOW + "\nAccount name:  " + Account.Color.RESET
+                + account.getFirstName() + " " + account.getLastName());
+        System.out.println(Account.Color.BOLD + Account.Color.YELLOW + "Card number:   " + Account.Color.RESET
+                + account.getCardNum());
 
     }
 
+    //transaction history
     public void viewTransactionHistory() {
         System.out.println(Account.Color.BOLD + Account.Color.PURPLE + "\n~~~~~~~~~~Transaction History~~~~~~~~~~"
                 + Account.Color.RESET);
@@ -414,10 +427,10 @@ public class Methods {
             for (Map.Entry<String, Transaction> entry : history.entrySet()) {
                 Transaction t = entry.getValue();
                 System.out.printf("\nRef: " + entry.getKey() + " | "
-                        + t.getType() + " | Php %.2f", t.getAmount());
+                        + t.getType() + " | Php %.2f" + " | " + t.getDateTime() , t.getAmount());
             }
         }
 
-        System.out.println("\n----------------------------------------");
+        System.out.println("\n--------------------------------------------------------------");
     }
 }

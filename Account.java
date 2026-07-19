@@ -59,8 +59,8 @@ public class Account {
         return transactionHistory;
     }
 
-    public void addTransaction(String refNum, String type, double amount) {
-        Transaction t = new Transaction(refNum, type, amount);
+    public void addTransaction(String refNum, String type, double amount, String date) {
+        Transaction t = new Transaction(refNum, type, amount, date);
         transactionHistory.put(refNum, t);
     }
 

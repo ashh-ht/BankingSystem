@@ -2,11 +2,13 @@ public class Transaction {
   String refNum;
   String type;
   double amount;
+  String date;
 
-  public Transaction(String refNum, String type, double amount) {
+  public Transaction(String refNum, String type, double amount, String date) {
     this.refNum = refNum;
     this.type = type;
     this.amount = amount;
+    this.date = date;
   }
 
   public String getRefNum() {
@@ -19,5 +21,9 @@ public class Transaction {
 
   public double getAmount() {
     return amount;
+  }
+
+  public String getDateTime() {
+    return date;
   }
 }
