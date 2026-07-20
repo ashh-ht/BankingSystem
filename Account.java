@@ -3,7 +3,7 @@ import java.util.HashMap;
 public class Account {
     private String cardNum, firstName, lastName, cardPin;
     private double balance;
-    HashMap<String, Transaction> transactionHistory = new HashMap<String, Transaction>();
+    private final HashMap<String, Transaction> transactionHistory = new HashMap<String, Transaction>();
     // string ang cardnum and cardpin kasi para mas madali sa checking. and also hnd
     // naman gagamitin for calculations kaya mas okay na string
 

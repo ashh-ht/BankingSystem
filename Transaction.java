@@ -1,8 +1,8 @@
 public class Transaction {
-  String refNum;
-  String type;
-  double amount;
-  String date;
+  private String refNum;
+  private String type;
+  private double amount;
+  private String date;
 
   public Transaction(String refNum, String type, double amount, String date) {
     this.refNum = refNum;
