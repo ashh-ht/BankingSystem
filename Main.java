@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         // final Account acc;
-        Methods m = new Methods();
+        BankServices bs = new BankServices();
         Scanner sc = new Scanner(System.in);
 
         while (true) {
@@ -33,12 +33,12 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    m.createAccount();
-                    m.menu();
+                    bs.createAccount();
+                    bs.menu();
                     break;
                 case 2:
-                    m.login();
-                    m.menu();
+                    bs.login();
+                    bs.menu();
                     break;
                 case 3:
                     System.out.println(Account.Color.RED + "NOTE: " + Account.Color.RESET

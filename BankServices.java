@@ -2,7 +2,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class Methods {
+public class BankServices {
     Scanner sc = new Scanner(System.in);
     private Account account;
 
